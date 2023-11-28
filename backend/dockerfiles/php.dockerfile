@@ -10,6 +10,16 @@ RUN mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
 RUN pecl install -o -f xdebug \
     && docker-php-ext-enable xdebug
 
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    unzip \
+    libzip-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install zip pdo_mysql
+
 # Copy Xdebug configuration
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
