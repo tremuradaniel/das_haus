@@ -18,6 +18,12 @@ framework:
     php_errors:
         log: true
 
+    validation:
+        auto_mapping:
+            # an empty array means that all entities that belong to that
+            # namespace will add automatic validation
+            'App\Entity\': []
+
 when@test:
     framework:
         test: true
