@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Exception;
 use Throwable;
 use App\Entity\User;
 use Psr\Log\LoggerInterface;
@@ -15,9 +14,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class RegistrationController extends AbstractController
+class AuthController extends AbstractController
 {
-    #[Route('/registration', name: 'app_registration', methods: ['POST'])]
+    #[Route('/registration', name: 'register', methods: ['POST'])]
     public function index(
         Request $request, 
         UserPasswordHasherInterface $passwordHasher,
@@ -57,7 +56,6 @@ class RegistrationController extends AbstractController
         $user->setPassword($hashedPassword);
 
         try {
-            throw new Exception("This is an error");
             $entityManager->persist($user);
             $entityManager->flush();
         } catch (Throwable $e) {
