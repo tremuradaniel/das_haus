@@ -14,9 +14,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[Route('/api')]
 class AuthController extends AbstractController
 {
-    #[Route('/registration', name: 'register', methods: ['POST'])]
+    #[Route('/registration', name: 'registration', methods: ['POST'])]
     public function index(
         Request $request, 
         UserPasswordHasherInterface $passwordHasher,

@@ -15,4 +15,12 @@ class HomePageController extends AbstractController
             'message' => sprintf('Welcome to %s API!', $_ENV['APP_NAME'])
         ]);
     }
+
+    #[Route('/api/test', name: 'test')]
+    public function test(): JsonResponse
+    {
+        return $this->json([
+            'message' => sprintf('Welcome to %s API!', $_ENV['APP_NAME'])
+        ]);
+    }
 }
