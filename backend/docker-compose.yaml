@@ -21,7 +21,7 @@ services:
     volumes:
       - ./backend_api:/var/www/html:delegated
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     env_file:
       - ./env/mysql.env
     ports:

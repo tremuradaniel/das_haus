@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
@@ -13,7 +15,7 @@ class Site
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -24,6 +26,14 @@ class Site
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserSite::class)]
+    private Collection $userSites;
+
+    public function __construct()
+    {
+        $this->userSites = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -62,6 +72,36 @@ class Site
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserSite>
+     */
+    public function getUserSites(): Collection
+    {
+        return $this->userSites;
+    }
+
+    public function addUserSite(UserSite $userSite): static
+    {
+        if (!$this->userSites->contains($userSite)) {
+            $this->userSites->add($userSite);
+            $userSite->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSite(UserSite $userSite): static
+    {
+        if ($this->userSites->removeElement($userSite)) {
+            // set the owning side to null (unless already changed)
+            if ($userSite->getSite() === $this) {
+                $userSite->setSite(null);
+            }
+        }
 
         return $this;
     }
