@@ -6,7 +6,7 @@
       "type": "php",
       "request": "launch",
       "port": 9003,
-      "hostname": "[ip of the WSL where the docker is]",
+      "hostname": "[ip of the machine where docker is installed]",
       "pathMappings": {
         "/var/www/html": "${workspaceFolder}/backend/backend_api"
       }
