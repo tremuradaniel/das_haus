@@ -18,7 +18,7 @@ class UserSite
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userSites')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', nullable: false)]
     private ?Site $site = null;
 
     public function getId(): ?int

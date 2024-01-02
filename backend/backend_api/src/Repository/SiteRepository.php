@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Site;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use SiteListFiltersModel;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Site>
@@ -21,28 +23,43 @@ class SiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Site::class);
     }
 
-//    /**
-//     * @return Site[] Returns an array of Site objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Site[] Returns an array of Site objects
+    */
+   public function getSitesForListing(SiteListFiltersModel $filters): array
+   {
+       $qb = $this->buildUserSitesJoins();
+       $qb
+        ->where($qb->expr()->eq('u.email', ':email'))
+        ->orderBy('s.name', 'ASC')
+        ->setFirstResult($filters->getOffset())
+        ->setMaxResults($filters->getRows())
+        ->setParameter('email', $filters->getUserEmail());        
+        
+        return $qb->getQuery()
+            ->getResult()
+       ;
+   }
 
-//    public function findOneBySomeField($value): ?Site
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function getUserTotalSites(string $userEmail): int
+   {
+        $qb = $this->buildUserSitesJoins();
+        $qb->select($qb->expr()->count('u.id'))
+        ->where($qb->expr()->eq('u.email', ':email'))
+        ->orderBy('s.name', 'ASC')
+        ->setParameter('email', $userEmail);        
+        
+        return $qb->getQuery()
+        ->getSingleScalarResult();
+   }
+
+   private function buildUserSitesJoins(): QueryBuilder
+   {
+    $qb = $this->createQueryBuilder('s');
+
+    return $qb
+        ->join('s.userSites', 'us')
+        ->join('us.user', 'u')
+    ;
+   }
 }
