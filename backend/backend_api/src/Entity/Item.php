@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ItemRepository;
 use ApiPlatform\Metadata\ApiResource;
@@ -32,6 +34,14 @@ class Item
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: ItemHistory::class)]
+    private Collection $itemHistories;
+
+    public function __construct()
+    {
+        $this->itemHistories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,6 +92,36 @@ class Item
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemHistory>
+     */
+    public function getItemHistories(): Collection
+    {
+        return $this->itemHistories;
+    }
+
+    public function addItemHistory(ItemHistory $itemHistory): static
+    {
+        if (!$this->itemHistories->contains($itemHistory)) {
+            $this->itemHistories->add($itemHistory);
+            $itemHistory->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemHistory(ItemHistory $itemHistory): static
+    {
+        if ($this->itemHistories->removeElement($itemHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($itemHistory->getItem() === $this) {
+                $itemHistory->setItem(null);
+            }
+        }
 
         return $this;
     }

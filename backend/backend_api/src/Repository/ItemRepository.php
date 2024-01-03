@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Item;
+use App\Entity\Site;
 use Doctrine\ORM\QueryBuilder;
 use App\Model\Items\ItemListFiltersModel;
 use Doctrine\Persistence\ManagerRegistry;
@@ -33,6 +34,7 @@ class ItemRepository extends ServiceEntityRepository
          ->where($qb->expr()->eq('u.email', ':email'))
          ->andWhere($qb->expr()->eq('IDENTITY(us.site)', ':siteId'))
          ->andWhere($qb->expr()->eq('i.status', ':status'))
+         ->andWhere($qb->expr()->eq('s.status', ':siteStatus'))
          ->orderBy('i.name', 'ASC')
          ->setFirstResult($filters->getOffset())
          ->setMaxResults($filters->getRows())
@@ -79,6 +81,7 @@ class ItemRepository extends ServiceEntityRepository
             'email' => $filters->getUserEmail(),
             'siteId' => $filters->getSiteId(),
             'status' => Item::ACTIVE_STATUS,
+            'siteStatus' => Site::ACTIVE_STATUS,
         ]);
     }
 }

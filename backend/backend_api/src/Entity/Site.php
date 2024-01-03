@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource]
 class Site
 {
+    public const ACTIVE_STATUS = 'active';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
