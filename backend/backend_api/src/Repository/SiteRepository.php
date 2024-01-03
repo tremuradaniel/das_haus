@@ -46,7 +46,6 @@ class SiteRepository extends ServiceEntityRepository
         $qb = $this->buildUserSitesJoins();
         $qb->select($qb->expr()->count('u.id'))
         ->where($qb->expr()->eq('u.email', ':email'))
-        ->orderBy('s.name', 'ASC')
         ->setParameter('email', $userEmail);        
         
         return $qb->getQuery()

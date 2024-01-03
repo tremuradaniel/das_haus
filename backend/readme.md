@@ -7,4 +7,4 @@ the symfony project. run only once
 
 `docker-compose run --rm -it php composer require symfony/maker-bundle --dev` - install maker
 
-`docker-compose run --rm php bin/console  doctrine:migrations:migrate`
+`docker-compose run --rm php bin/console doctrine:migrations:migrate`
