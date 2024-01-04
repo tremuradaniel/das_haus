@@ -42,7 +42,14 @@ class ItemHistoryFiltersModel extends AbstractFiltersModel
   private function setParams(array $params): void
   {
     $missingValues = [];
-    $this->itemId = $params[self::ITEM_ID_KEY];
+    $itemId = $params[self::ITEM_ID_KEY];
+
+    if (!$itemId) {
+      $missingValues[] = self::ITEM_ID_KEY;
+    } else {
+      $this->itemId = $params[self::ITEM_ID_KEY];
+    }
+
     $startDate = $params[self::START_DATE_KEY] ?? null;
     $endDate = $params[self::END_DATE_KEY] ?? null;
 

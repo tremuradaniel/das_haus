@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/apiplatform/swagger-ui/swagger-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/apiplatform/swagger-ui/style.css') }}">
+    <div id="swagger-ui"></div>
+    <script src="{{ asset('bundles/apiplatform/swagger-ui/swagger-ui-bundle.js') }}"></script>
+    <script>
+        window.onload = function() {
+            const ui = SwaggerUIBundle({
+                url: '/swagger.json',
+                dom_id: '#swagger-ui',
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset,
+                ],
+                layout: 'BaseLayout',
+            })
+        }
+    </script>
+{% endblock %}

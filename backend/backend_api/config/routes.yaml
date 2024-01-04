@@ -6,3 +6,8 @@ controllers:
 
 api_login_check:
     path: /api/login_check
+swagger_ui:
+    path: /swagger-ui
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    defaults:
+        template: 'swagger-ui.html.twig'
