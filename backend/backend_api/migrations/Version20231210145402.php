@@ -20,7 +20,7 @@ final class Version20231210145402 extends AbstractMigration
             `id` int unsigned NOT NULL AUTO_INCREMENT,
             `user_id` int unsigned NOT NULL,
             `site_id` int unsigned NOT NULL,
-            `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+            `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`),
             UNIQUE KEY `uq_user_site` (`site_id`,`user_id`),
             KEY `IDX_13C2452D9D86650F` (`user_id`) USING BTREE,
