@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { NavLink } from "react-router-dom";
 function NavigationBar() {
   return (
     <>
@@ -17,7 +18,7 @@ function NavigationBar() {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                Offcanvas
+                Menu
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
@@ -40,8 +41,11 @@ function NavigationBar() {
               </Nav>
         
             </Offcanvas.Body>
+       
           </Navbar.Offcanvas>
-          <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+        
+          <Navbar.Brand href="#">DAS HAUS</Navbar.Brand>
+          <Navbar href="auth">Authentication</Navbar>
         </Container>
       </Navbar>
     ))}

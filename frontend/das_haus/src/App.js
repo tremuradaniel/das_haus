@@ -1,11 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import NavigationBar from './components/Navbar.js'
-
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import HomePage from './pages/Home'
+import RootLayout from './pages/Root';
+import AuthenticationPage from './pages/Auth';
+import {action as authAction} from './components/AuthForm'
 function App() {
-  return (
-    <NavigationBar/>
-  )
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <RootLayout />,
+      children: [
+        { path: '/', index: true, element: <HomePage /> },
+    
+        {path: 'auth/', element: <AuthenticationPage/>, action: authAction, name:"auth"},
+
+
+
+      ]}])
+      return <RouterProvider router={router} />;
+
+
 }
 
 export default App;
