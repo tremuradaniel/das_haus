@@ -3,8 +3,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { NavLink } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { NavLink} from "react-router-dom";
+import {logout} from '../logout';
 function NavigationBar() {
+  let isLoggedIn = localStorage.getItem('token')
+  let navigate = useNavigate();
+
+  const logoutHandler = () => {
+    logout();
+    navigate('/'); 
+  };
   return (
     <>
     {[false].map((expand) => (
@@ -44,8 +53,9 @@ function NavigationBar() {
        
           </Navbar.Offcanvas>
         
-          <Navbar.Brand href="#">DAS HAUS</Navbar.Brand>
-          <Navbar href="auth">Authentication</Navbar>
+          <NavLink to="/">DAS HAUS</NavLink>
+          {!isLoggedIn && <NavLink to="/auth?mode=login" className="nav-link">Authentication</NavLink>}
+          {isLoggedIn && <Nav.Link onClick = {logoutHandler} className="nav-link">Logout</Nav.Link>}
         </Container>
       </Navbar>
     ))}

@@ -34,9 +34,9 @@ function AuthForm() {
                     <input
                       className="form-control"
                       placeholder="Username"
-                      id="username"
+                      id="email"
                       type="email"
-                      name="username"
+                      name="email"
                       required
                     />
                   </div>
@@ -86,7 +86,7 @@ export async function action({ request, params }) {
   const mode = searchParams.get("mode");
   const data = await request.formData();
   let userData = {
-    username: data.get("username"),
+    email: data.get("email"),
     password: data.get("password"),
   };
 
@@ -97,7 +97,7 @@ export async function action({ request, params }) {
   if (method === "POST") {
     if (mode === "signup") {
       let data = JSON.stringify({
-        username: userData.username,
+        email: userData.email,
         password: userData.password,
       });
 
@@ -120,10 +120,10 @@ export async function action({ request, params }) {
         .catch((error) => {
           console.log(error);
         });
-
+      }
       if (mode === "login") {
         let data = JSON.stringify({
-          username: userData.username,
+          username: userData.email,
           password: userData.password,
         });
 
@@ -141,13 +141,17 @@ export async function action({ request, params }) {
           .request(config)
           .then((response) => {
             console.log(JSON.stringify(response.data));
+            const parsedResponse = JSON.parse(JSON.stringify(response.data));
+            const token = parsedResponse.token;
+            localStorage.setItem('token', token)
+            return redirect("/");
           })
           .catch((error) => {
             console.log(error);
           });
       }
-    }
+    
 
-    return null;
+      return redirect("/");
   }
 }
