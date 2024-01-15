@@ -53,6 +53,7 @@ function AuthForm() {
                       required
                     />
                   </div>
+
                   <div className="form-group">
                     <button
                       type="submit"
@@ -81,10 +82,12 @@ function AuthForm() {
 export default AuthForm;
 
 export async function action({ request, params }) {
+
   const method = request.method;
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode");
   const data = await request.formData();
+
   let userData = {
     email: data.get("email"),
     password: data.get("password"),
@@ -120,38 +123,35 @@ export async function action({ request, params }) {
         .catch((error) => {
           console.log(error);
         });
-      }
-      if (mode === "login") {
-        let data = JSON.stringify({
-          username: userData.email,
-          password: userData.password,
+    }
+    if (mode === "login") {
+      let data = JSON.stringify({
+        username: userData.email,
+        password: userData.password,
+      });
+  
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "http://localhost:8000/api/login_check",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+  
+      axios.request(config)
+        .then((response) => {
+          console.log(response.data);
+          let token = response.data.token;
+          localStorage.setItem("token", token);
+          window.location.href = '/';
+        })
+        .catch((error) => {
+          console.log(error);
         });
+  }
 
-        let config = {
-          method: "post",
-          maxBodyLength: Infinity,
-          url: "http://localhost:8000/api/login_check",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: data,
-        };
-
-        axios
-          .request(config)
-          .then((response) => {
-            console.log(JSON.stringify(response.data));
-            const parsedResponse = JSON.parse(JSON.stringify(response.data));
-            const token = parsedResponse.token;
-            localStorage.setItem('token', token)
-            return redirect("/");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    
-
-      return redirect("/");
+    return null;
   }
 }
