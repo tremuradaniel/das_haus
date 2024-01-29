@@ -4,7 +4,9 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/Home'
 import RootLayout from './pages/Root';
 import AuthenticationPage from './pages/Auth';
+import DummyProtectedPage from './pages/Dummy'
 import {action as authAction} from './components/AuthForm'
+import {routeProtectionLoader} from './util/routeProtection'
 function App() {
 
   const router = createBrowserRouter([
@@ -13,8 +15,8 @@ function App() {
       element: <RootLayout />,
       children: [
         { path: '/', index: true, element: <HomePage /> },
-    
         {path: 'auth/', element: <AuthenticationPage/>, action: authAction, name:"auth"},
+        {path: 'dummy', element: <DummyProtectedPage/>, loader: routeProtectionLoader}
 
 
 
