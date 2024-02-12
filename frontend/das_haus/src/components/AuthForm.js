@@ -82,7 +82,6 @@ function AuthForm() {
 export default AuthForm;
 
 export async function action({ request, params }) {
-
   const method = request.method;
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode");
@@ -129,7 +128,7 @@ export async function action({ request, params }) {
         username: userData.email,
         password: userData.password,
       });
-  
+
       let config = {
         method: "post",
         maxBodyLength: Infinity,
@@ -139,18 +138,19 @@ export async function action({ request, params }) {
         },
         data: data,
       };
-  
-      axios.request(config)
+
+      axios
+        .request(config)
         .then((response) => {
           console.log(response.data);
           let token = response.data.token;
           localStorage.setItem("token", token);
-          window.location.href = '/';
+          window.location.href = "/";
         })
         .catch((error) => {
           console.log(error);
         });
-  }
+    }
 
     return null;
   }
