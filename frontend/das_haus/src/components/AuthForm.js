@@ -106,7 +106,7 @@ export async function action({ request, params }) {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8000/api/registration",
+        url: `${process.env.REACT_APP_API_BASE_URL}/api/registration`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -132,7 +132,7 @@ export async function action({ request, params }) {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8000/api/login_check",
+        url: `${process.env.REACT_APP_API_BASE_URL}/api/login_check`,
         headers: {
           "Content-Type": "application/json",
         },
