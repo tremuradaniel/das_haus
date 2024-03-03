@@ -1,3 +1,4 @@
 *workspace
 .vscode/launch.json
 docs
+.env
